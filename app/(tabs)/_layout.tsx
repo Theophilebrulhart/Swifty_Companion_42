@@ -1,5 +1,5 @@
 import { Redirect, Stack, Tabs } from "expo-router";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { useSession } from "@/context/authContext";
 import { Colors } from "@/constants/Colors";
 import React from "react";
@@ -28,40 +28,38 @@ export default function AppLayout() {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <View style={styles.container}>
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-          headerShown: false,
-          tabBarStyle: { backgroundColor: "#240750" },
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+        tabBarStyle: { backgroundColor: "#240750" },
+      }}
+    >
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "person" : "person-outline"}
+              color={color}
+            />
+          ),
         }}
-      >
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: "Profile",
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
-                name={focused ? "person" : "person-outline"}
-                color={color}
-              />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="settings"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
-                name={focused ? "home" : "home-outline"}
-                color={color}
-              />
-            ),
-          }}
-        />
-      </Tabs>
-    </View>
+      />
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
 
@@ -69,6 +67,5 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    paddingTop: 30,
   },
 });

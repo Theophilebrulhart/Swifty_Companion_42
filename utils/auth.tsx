@@ -2,6 +2,7 @@ import axios from "axios";
 import { getRandomBytes } from "expo-crypto";
 import { useEffect } from "react";
 import * as Crypto from "expo-crypto";
+import { UserProfile } from "@/type/user";
 
 export async function getUserToken(code: string): Promise<any> {
   const url = "https://api.intra.42.fr/oauth/token";
@@ -24,9 +25,40 @@ export async function getUserToken(code: string): Promise<any> {
   }
 }
 
+const returnUserProfil = (response: any): UserProfile => {
+  const {
+    id,
+    email,
+    login,
+    first_name,
+    last_name,
+    displayname,
+    wallet,
+    correction_point,
+  } = response.data;
+  const { level } = response.data.cursus_users[1];
+  const image = response.data.image.link;
+  const userProfile: UserProfile = {
+    id,
+    email,
+    login,
+    first_name,
+    last_name,
+    displayname,
+    wallet,
+    correction_point,
+    level,
+    image,
+  };
+
+  return userProfile;
+};
+
 export async function getMe(): Promise<any> {
   try {
     const response = await axios.get("https://api.intra.42.fr/v2/me");
+    const userProfile = returnUserProfil(response);
+    return { userProfile, ...response.data };
     return response.data;
   } catch (error) {
     console.log("error in get me");
