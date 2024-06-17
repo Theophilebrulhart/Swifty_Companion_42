@@ -1,7 +1,13 @@
 import { useStorageState } from "@/hooks/useLocalStorage";
 import { generateShaKey, getMe, getUserToken } from "@/utils/auth";
 import { useAuthRequest } from "expo-auth-session";
-import { PropsWithChildren, createContext, useContext, useEffect } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useQuery } from "@tanstack/react-query";
 import * as WebBrowser from "expo-web-browser";
 import { router } from "expo-router";
@@ -35,6 +41,7 @@ export function SessionProvider(props: PropsWithChildren) {
   const [[isTokenLoading, token], setToken] = useStorageState("token");
   const [[isRefreshTokenLoading, refreshToken], setRefreshToken] =
     useStorageState("refreshToken");
+  const [shaKey, setShaKey] = useState<Promise<string> | null>(null);
 
   const discovery = {
     authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
@@ -66,6 +73,7 @@ export function SessionProvider(props: PropsWithChildren) {
   });
 
   const signIn = async () => {
+    if (!shaKey) return;
     const res = await promptAsync();
     if (
       res.type !== "success" ||
@@ -91,6 +99,7 @@ export function SessionProvider(props: PropsWithChildren) {
   };
 
   useEffect(() => {
+    setShaKey(generateShaKey());
     if (session !== null && !isSessionLoading && token !== null) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       refetchMe();
