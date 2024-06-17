@@ -49,7 +49,7 @@ export function SessionProvider(props: PropsWithChildren) {
     revocationEndpoint: "https://api.intra.42.fr/oauth/revoke",
   };
 
-  // TODO would be nice to have a sha key here
+  // TODO would be nice to use my shaKey here
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: process.env.EXPO_PUBLIC_API_UID as string,
@@ -78,20 +78,14 @@ export function SessionProvider(props: PropsWithChildren) {
     if (
       res.type !== "success" ||
       res.params.state !== (process.env.EXPO_PUBLIC_UNIQUE_STATE as string)
-    ) {
-      console.log(
-        `pas le bon unique state : res : ${res.params.state} / env : ${
-          process.env.EXPO_PUBLIC_UNIQUE_STATE as string
-        }`
-      );
+    )
       return;
-    }
     const { code } = res.params;
     try {
       const accessToken = await getUserToken(code);
       setSession("active");
       setToken(accessToken.access_token);
-      router.replace("/Home");
+      router.replace("/profile");
     } catch (error) {
       console.log("error :", error);
       return;
