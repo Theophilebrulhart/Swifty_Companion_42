@@ -23,9 +23,9 @@ export default function LevelBar(props: { level: number }) {
 
 const styles = StyleSheet.create({
   levelBarContainer: {
-    backgroundColor: Colors.dark.icon,
+    backgroundColor: Colors.dark.dark,
     width: "100%",
-    height: 50,
+    height: 30,
     alignItems: "center",
   },
   progressBarContainer: {
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   progressBar: {
-    backgroundColor: "#679827",
-    height: 50,
+    backgroundColor: Colors.dark.primary,
+    height: 30,
     position: "absolute",
     top: 0,
     left: 0,

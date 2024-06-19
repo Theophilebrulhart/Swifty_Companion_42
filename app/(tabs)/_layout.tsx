@@ -9,11 +9,12 @@ import { StyleSheet, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function AppLayout() {
-  const { session, isSessionLoading } = useSession();
+  const { session, isSessionLoading, isMeLoading } = useSession();
   const colorScheme = useColorScheme();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
-  if (isSessionLoading) {
+  if (isSessionLoading || isMeLoading) {
+    console.log("data loading");
     return <ThemedText>Loading...</ThemedText>;
   }
 

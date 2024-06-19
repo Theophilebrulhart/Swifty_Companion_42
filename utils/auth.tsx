@@ -1,8 +1,9 @@
 import axios from "axios";
 import { getRandomBytes } from "expo-crypto";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as Crypto from "expo-crypto";
 import { UserProfile } from "@/type/user";
+import { Project } from "@/type/project";
 
 export async function getUserToken(code: string): Promise<any> {
   const url = "https://api.intra.42.fr/oauth/token";
@@ -25,7 +26,7 @@ export async function getUserToken(code: string): Promise<any> {
   }
 }
 
-const returnUserProfil = (response: any): UserProfile => {
+const UserProfil = (response: any): UserProfile => {
   const {
     id,
     email,
@@ -54,14 +55,36 @@ const returnUserProfil = (response: any): UserProfile => {
   return userProfile;
 };
 
+const projectModel = (projects: any): Project[] => {
+  const projectsModel: Project[] = [];
+
+  projects.map((project: any) => {
+    const {
+      created_at,
+      final_mark,
+      status,
+      ["validated?"]: validated,
+    } = project;
+    const name = project.project.name;
+    projectsModel.push({
+      created_at,
+      final_mark,
+      name,
+      status,
+      validated,
+    } as Project);
+  });
+  return projectsModel;
+};
+
 export async function getMe(): Promise<any> {
   try {
     const response = await axios.get("https://api.intra.42.fr/v2/me");
-    const userProfile = returnUserProfil(response);
-    return { userProfile, ...response.data };
-    return response.data;
+    const userProfile = UserProfil(response);
+    const userProjects = projectModel(response.data.projects_users);
+    return { userProfile, userProjects };
   } catch (error) {
-    console.log("error in get me");
+    console.log("error in get me : ", error);
     throw new Error("Couldn't get me infos");
   }
 }

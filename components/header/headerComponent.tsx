@@ -6,6 +6,7 @@ import { Image, StyleSheet, View } from "react-native";
 import Avatar from "../utils/Avatar";
 import DetailsCard from "./detailsCard";
 import LevelBar from "./levelBar";
+import { Colors } from "@/constants/Colors";
 
 export default function HeaderComponent(props: { userProfile: UserProfile }) {
   const user = props.userProfile;
@@ -20,7 +21,12 @@ export default function HeaderComponent(props: { userProfile: UserProfile }) {
           }}
         />
         <View style={styles.avatarContainer}>
-          <Avatar img={user.image} size={120} borderWidth={5} />
+          <Avatar
+            img={user.image}
+            size={120}
+            borderWidth={3}
+            borderColor={Colors.dark.primary}
+          />
         </View>
         <View style={styles.infosContainer}>
           <View
@@ -41,15 +47,14 @@ export default function HeaderComponent(props: { userProfile: UserProfile }) {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 300,
     width: "100%",
   },
   backgroundImg: {
     flex: 1,
     width: "100%",
-    height: 250,
+    height: 330,
     position: "absolute",
-    top: 0,
+    top: -80,
     left: 0,
   },
   userDetails: {

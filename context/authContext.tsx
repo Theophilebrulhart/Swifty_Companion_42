@@ -22,6 +22,7 @@ type AuthContextType = {
   isSessionLoading: boolean;
   isTokenLoading: boolean;
   isRefreshTokenLoading: boolean;
+  isMeLoading: boolean;
   me: any;
 };
 
@@ -63,7 +64,7 @@ export function SessionProvider(props: PropsWithChildren) {
   const {
     isPending,
     isError,
-    isLoading: isGetMeLoading,
+    isLoading: isMeLoading,
     isSuccess,
     data: me,
     refetch: refetchMe,
@@ -114,6 +115,7 @@ export function SessionProvider(props: PropsWithChildren) {
         isTokenLoading,
         isRefreshTokenLoading,
         me,
+        isMeLoading,
       }}
     >
       {props.children}
