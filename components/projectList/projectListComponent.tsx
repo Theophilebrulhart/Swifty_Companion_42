@@ -20,7 +20,7 @@ export default function ProjectList(props: { projects: Project[] }) {
       resizeMode="cover"
     >
       <View style={styles.listContainer}>
-        <View
+        {/* <View
           style={{
             width: "100%",
             height: 70,
@@ -31,7 +31,7 @@ export default function ProjectList(props: { projects: Project[] }) {
           <ThemedText style={{ fontSize: 40, lineHeight: 0 }}>
             Projects : {projects.length}
           </ThemedText>
-        </View>
+        </View> */}
         <FlatList
           data={projects}
           renderItem={renderItem}

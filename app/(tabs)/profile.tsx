@@ -1,13 +1,33 @@
 import HeaderComponent from "@/components/header/headerComponent";
+import ProfileTabBar from "@/components/header/profileTabBar";
 import ProjectList from "@/components/projectList/projectListComponent";
 import { useSession } from "@/context/authContext";
-import { UserProfile } from "@/type/user";
-import { ThemeProvider } from "@react-navigation/native";
 import { Redirect } from "expo-router";
-import { SafeAreaView, Text, View } from "react-native";
+import { useState } from "react";
+import { Dimensions, SafeAreaView, Text, View } from "react-native";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
+
+export type Tabs = "projects" | "skills" | "settings";
+
+const { width, height } = Dimensions.get("screen");
 
 export default function Profile() {
   const { me } = useSession();
+  const [contentType, setContentType] = useState<Tabs>("projects");
+
+  const pan = Gesture.Pan()
+    .minDistance(1)
+    .onStart((event) => {
+      if (contentType === "projects") {
+        if (event.translationX > 10) setContentType("skills");
+        if (event.translationX < -10) setContentType("settings");
+      }
+      if (event.translationX < -10 && contentType === "skills")
+        setContentType("projects");
+      if (event.translationX > 10 && contentType === "settings")
+        setContentType("projects");
+    })
+    .runOnJS(true);
 
   if (!me) {
     console.log("me not defined so back to login");
@@ -17,7 +37,19 @@ export default function Profile() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <HeaderComponent userProfile={me.userProfile} />
-      <ProjectList projects={me.userProjects} />
+      <ProfileTabBar
+        contentType={contentType}
+        setContentType={setContentType}
+      />
+      <GestureDetector gesture={pan}>
+        <View style={{ flex: 1 }}>
+          {contentType === "projects" && (
+            <ProjectList projects={me.userProjects} />
+          )}
+          {contentType === "skills" && <Text>BITE</Text>}
+          {contentType === "settings" && <Text>SETTINGS</Text>}
+        </View>
+      </GestureDetector>
     </SafeAreaView>
   );
 }

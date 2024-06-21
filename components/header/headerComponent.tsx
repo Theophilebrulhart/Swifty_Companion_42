@@ -10,7 +10,6 @@ import { Colors } from "@/constants/Colors";
 
 export default function HeaderComponent(props: { userProfile: UserProfile }) {
   const user = props.userProfile;
-  console.log("user progil : ", user);
   return (
     <ThemedView style={styles.headerContainer}>
       <View style={styles.userDetails}>
