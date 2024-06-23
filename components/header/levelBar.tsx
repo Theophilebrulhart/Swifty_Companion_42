@@ -2,15 +2,23 @@ import { Colors } from "@/constants/Colors";
 import { ThemeProvider } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
 import { ThemedText } from "../themedComponents/ThemedText";
+import { Coalition } from "@/type/coalition";
 
-export default function LevelBar(props: { level: number }) {
-  const { level } = props;
+export default function LevelBar(props: { level: number; coal: Coalition }) {
+  const { level, coal } = props;
   const floorLevel = Math.floor(level);
   const pourcent = Math.round((level - floorLevel) * 100);
   return (
-    <View style={styles.levelBarContainer}>
+    <View
+      style={[styles.levelBarContainer, { backgroundColor: coal.dark_color }]}
+    >
       <View style={styles.progressBarContainer}>
-        <View style={[styles.progressBar, { width: `${pourcent}%` }]} />
+        <View
+          style={[
+            styles.progressBar,
+            { width: `${pourcent}%`, backgroundColor: coal.color },
+          ]}
+        />
       </View>
       <View style={styles.textContainer}>
         <ThemedText>

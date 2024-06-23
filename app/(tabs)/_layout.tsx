@@ -7,9 +7,10 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { StyleSheet, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { getCoalition } from "@/utils/api";
 
 export default function AppLayout() {
-  const { session, isSessionLoading, isMeLoading } = useSession();
+  const { session, isSessionLoading, isMeLoading, me } = useSession();
   const colorScheme = useColorScheme();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
@@ -34,7 +35,7 @@ export default function AppLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
-        tabBarStyle: { backgroundColor: "#240750" },
+        tabBarStyle: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
       }}
     >
       <Tabs.Screen

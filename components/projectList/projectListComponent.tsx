@@ -2,11 +2,14 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { Project } from "@/type/project";
 import ProjectCard from "./projectCard";
 
-export default function ProjectList(props: { projects: Project[] }) {
-  const { projects } = props;
+type ProjectListProps = {
+  projects: Project[];
+  color: string;
+};
 
+export default function ProjectList({ projects, color }: ProjectListProps) {
   const renderItem = ({ item }: { item: Project }) => {
-    return <ProjectCard project={item} />;
+    return <ProjectCard project={item} color={color} />;
   };
 
   return (

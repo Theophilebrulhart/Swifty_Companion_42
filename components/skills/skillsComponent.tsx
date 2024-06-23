@@ -4,12 +4,13 @@ import { Skill } from "@/type/skills";
 import { Colors } from "@/constants/Colors";
 import SkillCard from "./skillCard";
 
-export default function SkillsComponent(props: { skills: Skill[] }) {
-  const { skills } = props;
-
-  console.log("skikks", skills);
+export default function SkillsComponent(props: {
+  skills: Skill[];
+  color: string;
+}) {
+  const { skills, color } = props;
   const renderItem = ({ item }: { item: Skill }) => {
-    return <SkillCard skill={item} />;
+    return <SkillCard skill={item} color={color} />;
   };
 
   return (

@@ -24,7 +24,7 @@ type AuthContextType = {
   isTokenLoading: boolean;
   isRefreshTokenLoading: boolean;
   isMeLoading: boolean;
-  me: User;
+  me: User | null | undefined;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);

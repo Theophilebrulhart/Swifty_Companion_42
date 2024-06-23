@@ -7,14 +7,14 @@ import { Skill } from "@/type/skills";
 
 const width = Dimensions.get("screen").width;
 
-export default function SkillCard(props: { skill: Skill }) {
-  const { skill } = props;
+export default function SkillCard(props: { skill: Skill; color: string }) {
+  const { skill, color } = props;
 
   return (
     <View
       style={[
         styles.cardContainer,
-        { width: (width * skill.level * 10) / 100 },
+        { width: (width * skill.level * 10) / 100, backgroundColor: color },
       ]}
     >
       <View style={styles.nameContainer}>
@@ -28,7 +28,7 @@ export default function SkillCard(props: { skill: Skill }) {
 const styles = StyleSheet.create({
   cardContainer: {
     height: 50,
-    justifyContent: "center",
+    paddingLeft: 20,
     alignItems: "center",
     borderRadius: 10,
     marginVertical: 10,

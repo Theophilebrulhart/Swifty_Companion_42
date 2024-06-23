@@ -28,4 +28,5 @@ export const Colors = {
     success : "#A1DD70",
     error : "#EE4E4E"
   },
+  
 };

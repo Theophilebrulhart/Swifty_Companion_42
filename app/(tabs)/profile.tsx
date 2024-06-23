@@ -4,6 +4,7 @@ import ProjectList from "@/components/projectList/projectListComponent";
 import SettingsComponent from "@/components/settings/settingsComponent";
 import SkillsComponent from "@/components/skills/skillsComponent";
 import { useSession } from "@/context/authContext";
+import { getCoalition } from "@/utils/api";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 import {
@@ -45,7 +46,10 @@ export default function Profile() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <HeaderComponent userProfile={me.userProfile} />
+      <HeaderComponent
+        userProfile={me.userProfile}
+        userCoalition={me.userCoalition}
+      />
       <ImageBackground
         source={{
           uri: "https://play-lh.googleusercontent.com/R7908CY0RwHLy9zBRvK5iYfRPZdSlhOPOyAqwPd9cCYICrvU809bRhqDz28qRpteqCM",
@@ -56,14 +60,21 @@ export default function Profile() {
         <ProfileTabBar
           contentType={contentType}
           setContentType={setContentType}
+          activeColor={me.userCoalition.dark_color}
         />
         <GestureDetector gesture={pan}>
           <View style={{ flex: 1 }}>
             {contentType === "projects" && (
-              <ProjectList projects={me.userProjects} />
+              <ProjectList
+                projects={me.userProjects}
+                color={me.userCoalition.dark_color}
+              />
             )}
             {contentType === "skills" && (
-              <SkillsComponent skills={me.userSkills} />
+              <SkillsComponent
+                skills={me.userSkills}
+                color={me.userCoalition.dark_color}
+              />
             )}
             {contentType === "settings" && <SettingsComponent />}
           </View>

@@ -2,29 +2,31 @@ import { UserProfile } from "@/type/user";
 import { ThemedText } from "../themedComponents/ThemedText";
 import { ThemedView } from "../themedComponents/ThemedView";
 import { Image, StyleSheet, View } from "react-native";
-
 import Avatar from "../utils/Avatar";
 import DetailsCard from "./detailsCard";
 import LevelBar from "./levelBar";
-import { Colors } from "@/constants/Colors";
+import { Coalition } from "@/type/coalition";
 
-export default function HeaderComponent(props: { userProfile: UserProfile }) {
-  const user = props.userProfile;
+export default function HeaderComponent(props: {
+  userProfile: UserProfile;
+  userCoalition: Coalition;
+}) {
+  const { userProfile, userCoalition } = props;
   return (
     <ThemedView style={styles.headerContainer}>
       <View style={styles.userDetails}>
         <Image
           style={styles.backgroundImg}
           source={{
-            uri: "https://cdn.intra.42.fr/coalition/cover/192/jpeg-back5.jpg",
+            uri: userCoalition.cover_url,
           }}
         />
         <View style={styles.avatarContainer}>
           <Avatar
-            img={user.image}
+            img={userProfile.image}
             size={120}
             borderWidth={3}
-            borderColor={Colors.dark.primary}
+            borderColor={userCoalition.light_color}
           />
         </View>
         <View style={styles.infosContainer}>
@@ -34,12 +36,14 @@ export default function HeaderComponent(props: { userProfile: UserProfile }) {
               alignItems: "center",
             }}
           >
-            <ThemedText style={{ fontSize: 20 }}>HOUSE OF THREADS</ThemedText>
+            <ThemedText style={{ fontSize: 20 }}>
+              {userCoalition.name}
+            </ThemedText>
           </View>
-          <DetailsCard user={user} />
+          <DetailsCard user={userProfile} />
         </View>
       </View>
-      <LevelBar level={user.level} />
+      <LevelBar level={userProfile.level} coal={userCoalition} />
     </ThemedView>
   );
 }
@@ -64,14 +68,12 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     flex: 2,
-    // backgroundColor: "#91DDCF",
     justifyContent: "center",
     alignItems: "center",
   },
   infosContainer: {
     flex: 3,
     gap: 10,
-    // backgroundColor: "#3DC2EC",
     padding: 20,
   },
 });

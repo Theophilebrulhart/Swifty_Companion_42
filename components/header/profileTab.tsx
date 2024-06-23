@@ -7,12 +7,14 @@ type ProfileTabProps = {
   contentType: Tabs;
   changeContentTo: (changeTo: Tabs) => void;
   title: Tabs;
+  activeColor: string;
 };
 
 export default function ProfileTab({
   contentType,
   title,
   changeContentTo,
+  activeColor,
 }: ProfileTabProps) {
   return (
     <TouchableOpacity
@@ -20,7 +22,7 @@ export default function ProfileTab({
         styles.tab,
         {
           borderBottomWidth: title === contentType ? 3 : 0,
-          borderColor: title === contentType ? Colors.dark.dark : "#fff",
+          borderColor: title === contentType ? activeColor : "#fff",
         },
       ]}
       onPress={() => changeContentTo(title)}

@@ -1,19 +1,22 @@
 import { Colors } from "@/constants/Colors";
 import { Project } from "@/type/project";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { ThemedText } from "../themedComponents/ThemedText";
 import { formatDate } from "date-fns";
 
 const width = Dimensions.get("screen").width;
 
-export default function ProjectCard(props: { project: Project }) {
-  const { project } = props;
+export default function ProjectCard(props: {
+  project: Project;
+  color: string;
+}) {
+  const { project, color } = props;
   const bgColor = project.validated ? Colors.dark.success : Colors.dark.error;
   const date = formatDate(project.created_at, "dd MM yy");
   return (
     <View style={[styles.cardContainer, { width: width - 50 }]}>
       <View style={styles.leftContainer}>
-        <View style={styles.nameContainer}>
+        <View style={[styles.nameContainer, { backgroundColor: color }]}>
           <ThemedText style={{ fontSize: 20 }}>{project.name}</ThemedText>
         </View>
         <View style={[styles.markContainer, { borderColor: bgColor }]}>

@@ -1,19 +1,19 @@
 import { StyleSheet, View } from "react-native";
 import { ThemedView } from "../themedComponents/ThemedView";
-import { ThemedText } from "../themedComponents/ThemedText";
-import { Colors } from "@/constants/Colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Tabs } from "@/app/(tabs)/profile";
 import ProfileTab from "./profileTab";
+import { Coalition } from "@/type/coalition";
 
 type ProfileTabBarProps = {
   contentType: Tabs;
   setContentType: (contentType: Tabs) => void;
+  activeColor: string;
 };
 
 export default function ProfileTabBar({
   contentType,
   setContentType,
+  activeColor,
 }: ProfileTabBarProps) {
   const changeContentTo = (changeTo: Tabs) => {
     if (changeTo !== contentType) setContentType(changeTo);
@@ -25,16 +25,19 @@ export default function ProfileTabBar({
         contentType={contentType}
         changeContentTo={changeContentTo}
         title={"skills"}
+        activeColor={activeColor}
       />
       <ProfileTab
         contentType={contentType}
         changeContentTo={changeContentTo}
         title={"projects"}
+        activeColor={activeColor}
       />
       <ProfileTab
         contentType={contentType}
         changeContentTo={changeContentTo}
         title={"settings"}
+        activeColor={activeColor}
       />
     </ThemedView>
   );
