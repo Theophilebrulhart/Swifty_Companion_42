@@ -1,19 +1,22 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { Project } from "@/type/project";
-import ProjectCard from "./projectCard";
+import { ThemedText } from "../themedComponents/ThemedText";
+import { Skill } from "@/type/skills";
+import { Colors } from "@/constants/Colors";
+import SkillCard from "./skillCard";
 
-export default function ProjectList(props: { projects: Project[] }) {
-  const { projects } = props;
+export default function SkillsComponent(props: { skills: Skill[] }) {
+  const { skills } = props;
 
-  const renderItem = ({ item }: { item: Project }) => {
-    return <ProjectCard project={item} />;
+  console.log("skikks", skills);
+  const renderItem = ({ item }: { item: Skill }) => {
+    return <SkillCard skill={item} />;
   };
 
   return (
     <View style={styles.backgroundImage}>
       <View style={styles.listContainer}>
         <FlatList
-          data={projects}
+          data={skills}
           renderItem={renderItem}
           keyExtractor={(item) => item.name}
           // extraData={selectedId}
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   listContainer: {
-    marginTop: 30,
+    marginTop: 40,
     width: "100%",
 
     paddingHorizontal: 20,

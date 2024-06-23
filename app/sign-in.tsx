@@ -20,7 +20,7 @@ export default function App() {
     >
       <View style={styles.container}>
         <Pressable onPress={signIn} style={styles.button}>
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>Log In</Text>
         </Pressable>
       </View>
     </ImageBackground>

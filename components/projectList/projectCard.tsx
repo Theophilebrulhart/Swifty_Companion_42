@@ -1,30 +1,32 @@
 import { Colors } from "@/constants/Colors";
 import { Project } from "@/type/project";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { ThemedText } from "../themedComponents/ThemedText";
 import { formatDate } from "date-fns";
+
+const width = Dimensions.get("screen").width;
 
 export default function ProjectCard(props: { project: Project }) {
   const { project } = props;
   const bgColor = project.validated ? Colors.dark.success : Colors.dark.error;
   const date = formatDate(project.created_at, "dd MM yy");
   return (
-    <View style={styles.cardContainer}>
+    <View style={[styles.cardContainer, { width: width - 50 }]}>
       <View style={styles.leftContainer}>
         <View style={styles.nameContainer}>
           <ThemedText style={{ fontSize: 20 }}>{project.name}</ThemedText>
         </View>
-        <View style={styles.markContainer}>
+        <View style={[styles.markContainer, { borderColor: bgColor }]}>
           <ThemedText style={{ fontSize: 30, lineHeight: 0 }}>
             {project.final_mark}
           </ThemedText>
         </View>
       </View>
       <View style={[styles.rightContainer, { borderColor: bgColor }]}>
-        <Text style={{ fontSize: 20 }}>{date}</Text>
-        <Text style={{ fontSize: 20 }}>
+        <ThemedText style={{ fontSize: 20 }}>{date}</ThemedText>
+        <ThemedText style={{ fontSize: 20 }}>
           {project.status.toLocaleUpperCase()}
-        </Text>
+        </ThemedText>
       </View>
     </View>
   );
@@ -33,14 +35,11 @@ export default function ProjectCard(props: { project: Project }) {
 const styles = StyleSheet.create({
   cardContainer: {
     height: 100,
-    width: "100%",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    // borderWidth: 3,
-    // borderColor: Colors.dark.primary,
     marginVertical: 10,
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     flexDirection: "row",
   },
   leftContainer: {
@@ -55,10 +54,11 @@ const styles = StyleSheet.create({
   },
   markContainer: {
     flex: 3,
-    backgroundColor: Colors.dark.primary,
     alignItems: "center",
     justifyContent: "center",
     borderBottomLeftRadius: 10,
+    borderBottomWidth: 6,
+    borderLeftWidth: 6,
   },
   rightContainer: {
     flex: 2,

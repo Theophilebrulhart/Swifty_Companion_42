@@ -2,8 +2,9 @@ import axios from "axios";
 import { getRandomBytes } from "expo-crypto";
 import { useEffect, useState } from "react";
 import * as Crypto from "expo-crypto";
-import { UserProfile } from "@/type/user";
+import { User, UserProfile } from "@/type/user";
 import { Project } from "@/type/project";
+import { Skill } from "@/type/skills";
 
 export async function getUserToken(code: string): Promise<any> {
   const url = "https://api.intra.42.fr/oauth/token";
@@ -26,7 +27,7 @@ export async function getUserToken(code: string): Promise<any> {
   }
 }
 
-const UserProfil = (response: any): UserProfile => {
+const UserProfilModel = (response: any): UserProfile => {
   const {
     id,
     email,
@@ -80,9 +81,14 @@ const projectModel = (projects: any): Project[] => {
 export async function getMe(): Promise<any> {
   try {
     const response = await axios.get("https://api.intra.42.fr/v2/me");
-    const userProfile = UserProfil(response);
+    const userProfile = UserProfilModel(response);
     const userProjects = projectModel(response.data.projects_users);
-    return { userProfile, userProjects };
+    const userSkills: Skill[] = response.data.cursus_users[1].skills;
+    return {
+      userProfile,
+      userProjects,
+      userSkills,
+    } as User;
   } catch (error) {
     console.log("error in get me : ", error);
     throw new Error("Couldn't get me infos");

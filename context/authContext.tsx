@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import * as WebBrowser from "expo-web-browser";
 import { router } from "expo-router";
 import axios from "axios";
+import { User } from "@/type/user";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -23,7 +24,7 @@ type AuthContextType = {
   isTokenLoading: boolean;
   isRefreshTokenLoading: boolean;
   isMeLoading: boolean;
-  me: any;
+  me: User;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
