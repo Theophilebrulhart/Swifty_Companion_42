@@ -22,7 +22,8 @@ type AuthContextType = {
   session: string | null;
   isSessionLoading: boolean;
   isTokenLoading: boolean;
-  isRefreshTokenLoading: boolean;
+  isPending: boolean;
+  // isRefreshTokenLoading: boolean;
   isMeLoading: boolean;
   me: User | null | undefined;
 };
@@ -41,8 +42,9 @@ export function useSession() {
 export function SessionProvider(props: PropsWithChildren) {
   const [[isSessionLoading, session], setSession] = useStorageState("session");
   const [[isTokenLoading, token], setToken] = useStorageState("token");
-  const [[isRefreshTokenLoading, refreshToken], setRefreshToken] =
-    useStorageState("refreshToken");
+  const [dataLoading, setDataLoading] = useState(true);
+  // const [[isRefreshTokenLoading, refreshToken], setRefreshToken] =
+  //   useStorageState("refreshToken");
   const [shaKey, setShaKey] = useState<Promise<string> | null>(null);
 
   const discovery = {
@@ -87,9 +89,9 @@ export function SessionProvider(props: PropsWithChildren) {
       const accessToken = await getUserToken(code);
       setSession("active");
       setToken(accessToken.access_token);
-      router.replace("/profile");
+      refetchMe();
+      if (isSuccess) router.replace("/profile");
     } catch (error) {
-      console.log("error :", error);
       return;
     }
   };
@@ -97,6 +99,7 @@ export function SessionProvider(props: PropsWithChildren) {
   useEffect(() => {
     setShaKey(generateShaKey());
     if (session !== null && !isSessionLoading && token !== null) {
+      console.log("session = ", session, "token = ", token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       refetchMe();
     }
@@ -109,14 +112,15 @@ export function SessionProvider(props: PropsWithChildren) {
         signOut: () => {
           setSession(null);
           setToken(null);
-          setRefreshToken(null);
+          // setRefreshToken(null);
         },
         session,
         isSessionLoading,
         isTokenLoading,
-        isRefreshTokenLoading,
+        // isRefreshTokenLoading,
         me,
         isMeLoading,
+        isPending,
       }}
     >
       {props.children}

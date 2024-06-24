@@ -1,25 +1,28 @@
-import { Redirect, Stack, Tabs } from "expo-router";
-import { ThemedText } from "@/components/themedComponents/ThemedText";
+import { Redirect, Tabs } from "expo-router";
 import { useSession } from "@/context/authContext";
 import { Colors } from "@/constants/Colors";
 import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { StyleSheet, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { getCoalition } from "@/utils/api";
+import { ImageBackground, StyleSheet, View } from "react-native";
 
 export default function AppLayout() {
-  const { session, isSessionLoading, isMeLoading, me } = useSession();
+  const { session, isSessionLoading, isMeLoading, me, isPending } =
+    useSession();
   const colorScheme = useColorScheme();
 
-  // You can keep the splash screen open, or render a loading screen like we do here.
-  if (isSessionLoading || isMeLoading) {
-    console.log("data loading");
-    return <ThemedText>Loading...</ThemedText>;
+  if (isSessionLoading || isMeLoading || isPending || !me) {
+    return (
+      <ImageBackground
+        source={{
+          uri: "https://play-lh.googleusercontent.com/R7908CY0RwHLy9zBRvK5iYfRPZdSlhOPOyAqwPd9cCYICrvU809bRhqDz28qRpteqCM",
+        }}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      ></ImageBackground>
+    );
   }
 
-  console.log("isSessionLoading :", isSessionLoading);
   // Only require authentication within the (app) group's layout as users
   // need to be able to access the (auth) group and sign in again.
   if (!session) {
@@ -70,5 +73,10 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
+  },
+  backgroundImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -108,7 +108,6 @@ export async function generateShaKey(): Promise<string> {
       randomString,
       { encoding: Crypto.CryptoEncoding.HEX }
     );
-    console.log("generate new shaKey", hashedKey);
     return hashedKey;
   } catch (error) {
     console.error("Error generating secure key:", error);

@@ -4,7 +4,6 @@ import ProjectList from "@/components/projectList/projectListComponent";
 import SettingsComponent from "@/components/settings/settingsComponent";
 import SkillsComponent from "@/components/skills/skillsComponent";
 import { useSession } from "@/context/authContext";
-import { getCoalition } from "@/utils/api";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 import {
@@ -12,17 +11,14 @@ import {
   ImageBackground,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 
 export type Tabs = "projects" | "skills" | "settings";
 
-const { width, height } = Dimensions.get("screen");
-
 export default function Profile() {
-  const { me } = useSession();
+  const { me, isMeLoading } = useSession();
   const [contentType, setContentType] = useState<Tabs>("projects");
 
   const pan = Gesture.Pan()
@@ -40,7 +36,10 @@ export default function Profile() {
     .runOnJS(true);
 
   if (!me) {
-    console.log("me not defined so back to login");
+    console.log(
+      "me not defined so back to login and isMeLoading :",
+      isMeLoading
+    );
     return <Redirect href={"/sign-in"} />;
   }
 
