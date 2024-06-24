@@ -1,20 +1,21 @@
 import HeaderComponent from "@/components/Profile/profileHeader/headerComponent";
-import ProfileTabBar from "@/components/Profile/profileHeader/profileTabBar";
 import ProjectList from "@/components/Profile/projectList/projectListComponent";
 import SettingsComponent from "@/components/Profile/settings/settingsComponent";
 import SkillsComponent from "@/components/Profile/skills/skillsComponent";
-
 import { useSession } from "@/context/authContext";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 import { ImageBackground, SafeAreaView, StyleSheet, View } from "react-native";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import { HomeTabs } from "./home";
+import CustomTabBar from "@/components/utils/customTabBar";
 
 export type Tabs = "projects" | "skills" | "settings";
 
 export default function Profile() {
   const { me, isMeLoading } = useSession();
-  const [contentType, setContentType] = useState<Tabs>("projects");
+  const [contentType, setContentType] = useState<Tabs | HomeTabs>("projects");
+  const labels: Tabs[] = ["skills", "projects", "settings"];
 
   const pan = Gesture.Pan()
     .minDistance(1)
@@ -51,10 +52,11 @@ export default function Profile() {
         style={styles.backgroundImage}
         resizeMode="cover"
       >
-        <ProfileTabBar
+        <CustomTabBar
           contentType={contentType}
           setContentType={setContentType}
           activeColor={me.userCoalition.dark_color}
+          labels={labels}
         />
         <GestureDetector gesture={pan}>
           <View style={{ flex: 1 }}>

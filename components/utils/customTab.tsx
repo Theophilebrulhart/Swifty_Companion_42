@@ -1,16 +1,17 @@
+import { HomeTabs } from "@/app/(tabs)/home";
 import { Tabs } from "@/app/(tabs)/profile";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
 type ProfileTabProps = {
-  contentType: Tabs;
-  changeContentTo: (changeTo: Tabs) => void;
-  title: Tabs;
+  contentType: Tabs | HomeTabs;
+  changeContentTo: (changeTo: Tabs | HomeTabs) => void;
+  title: Tabs | HomeTabs;
   activeColor: string;
 };
 
-export default function ProfileTab({
+export default function CustomTab({
   contentType,
   title,
   changeContentTo,

@@ -1,43 +1,38 @@
 import { StyleSheet, View } from "react-native";
 import { Tabs } from "@/app/(tabs)/profile";
-import ProfileTab from "./profileTab";
 import { ThemedView } from "@/components/themedComponents/ThemedView";
+import { HomeTabs } from "@/app/(tabs)/home";
+import CustomTab from "./customTab";
 
 type ProfileTabBarProps = {
-  contentType: Tabs;
-  setContentType: (contentType: Tabs) => void;
+  contentType: Tabs | HomeTabs;
+  setContentType: React.Dispatch<React.SetStateAction<Tabs | HomeTabs>>;
   activeColor: string;
+  labels: Tabs[] | HomeTabs[];
 };
 
-export default function ProfileTabBar({
+export default function CustomTabBar({
   contentType,
   setContentType,
   activeColor,
+  labels,
 }: ProfileTabBarProps) {
-  const changeContentTo = (changeTo: Tabs) => {
+  const changeContentTo = (changeTo: Tabs | HomeTabs) => {
     if (changeTo !== contentType) setContentType(changeTo);
   };
 
   return (
     <ThemedView style={styles.profileTabBarContainer}>
-      <ProfileTab
-        contentType={contentType}
-        changeContentTo={changeContentTo}
-        title={"skills"}
-        activeColor={activeColor}
-      />
-      <ProfileTab
-        contentType={contentType}
-        changeContentTo={changeContentTo}
-        title={"projects"}
-        activeColor={activeColor}
-      />
-      <ProfileTab
-        contentType={contentType}
-        changeContentTo={changeContentTo}
-        title={"settings"}
-        activeColor={activeColor}
-      />
+      {labels.map((label: Tabs | HomeTabs) => {
+        return (
+          <CustomTab
+            contentType={contentType}
+            changeContentTo={changeContentTo}
+            title={label}
+            activeColor={activeColor}
+          />
+        );
+      })}
     </ThemedView>
   );
 }
