@@ -1,7 +1,7 @@
 import { Tabs } from "@/app/(tabs)/profile";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { ThemedText } from "../themedComponents/ThemedText";
 
 type ProfileTabProps = {
   contentType: Tabs;

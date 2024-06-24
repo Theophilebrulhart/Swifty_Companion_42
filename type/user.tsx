@@ -1,3 +1,4 @@
+import { Campus } from "./campus";
 import { Coalition } from "./coalition";
 import { Project } from "./project";
 import { Skill } from "./skills";
@@ -20,4 +21,5 @@ export type User = {
   userSkills: Skill[];
   userProjects: Project[];
   userCoalition: Coalition;
+  userCampus: Campus;
 };

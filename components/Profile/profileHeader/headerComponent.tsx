@@ -1,11 +1,11 @@
 import { UserProfile } from "@/type/user";
-import { ThemedText } from "../themedComponents/ThemedText";
-import { ThemedView } from "../themedComponents/ThemedView";
 import { Image, StyleSheet, View } from "react-native";
-import Avatar from "../utils/Avatar";
 import DetailsCard from "./detailsCard";
 import LevelBar from "./levelBar";
 import { Coalition } from "@/type/coalition";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
+import { ThemedView } from "@/components/themedComponents/ThemedView";
+import Avatar from "@/components/utils/Avatar";
 
 export default function HeaderComponent(props: {
   userProfile: UserProfile;

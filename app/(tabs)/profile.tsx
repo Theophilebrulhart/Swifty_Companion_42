@@ -1,18 +1,13 @@
-import HeaderComponent from "@/components/header/headerComponent";
-import ProfileTabBar from "@/components/header/profileTabBar";
-import ProjectList from "@/components/projectList/projectListComponent";
-import SettingsComponent from "@/components/settings/settingsComponent";
-import SkillsComponent from "@/components/skills/skillsComponent";
+import HeaderComponent from "@/components/Profile/profileHeader/headerComponent";
+import ProfileTabBar from "@/components/Profile/profileHeader/profileTabBar";
+import ProjectList from "@/components/Profile/projectList/projectListComponent";
+import SettingsComponent from "@/components/Profile/settings/settingsComponent";
+import SkillsComponent from "@/components/Profile/skills/skillsComponent";
+
 import { useSession } from "@/context/authContext";
 import { Redirect } from "expo-router";
 import { useState } from "react";
-import {
-  Dimensions,
-  ImageBackground,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet, View } from "react-native";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 
 export type Tabs = "projects" | "skills" | "settings";

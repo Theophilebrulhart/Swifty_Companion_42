@@ -1,8 +1,8 @@
 import { Colors } from "@/constants/Colors";
 import { Project } from "@/type/project";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { ThemedText } from "../themedComponents/ThemedText";
 import { formatDate } from "date-fns";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 
 const width = Dimensions.get("screen").width;
 

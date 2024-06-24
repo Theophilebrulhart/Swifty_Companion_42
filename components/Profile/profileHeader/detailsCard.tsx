@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import { ThemedText } from "../themedComponents/ThemedText";
 import { UserProfile } from "@/type/user";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 
 export default function DetailsCard(props: { user: UserProfile }) {
   const { user } = props;

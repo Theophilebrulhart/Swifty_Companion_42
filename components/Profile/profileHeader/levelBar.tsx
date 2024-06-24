@@ -1,8 +1,7 @@
 import { Colors } from "@/constants/Colors";
-import { ThemeProvider } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
-import { ThemedText } from "../themedComponents/ThemedText";
 import { Coalition } from "@/type/coalition";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 
 export default function LevelBar(props: { level: number; coal: Coalition }) {
   const { level, coal } = props;

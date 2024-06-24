@@ -1,8 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { ThemedView } from "../themedComponents/ThemedView";
 import { Tabs } from "@/app/(tabs)/profile";
 import ProfileTab from "./profileTab";
-import { Coalition } from "@/type/coalition";
+import { ThemedView } from "@/components/themedComponents/ThemedView";
 
 type ProfileTabBarProps = {
   contentType: Tabs;

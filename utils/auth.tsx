@@ -5,6 +5,11 @@ import { Project } from "@/type/project";
 import { Skill } from "@/type/skills";
 import { Coalition } from "@/type/coalition";
 import { getCoalition } from "./api";
+import {
+  UserProfilModel,
+  campusModel,
+  projectModel,
+} from "./createModelObject";
 
 export async function getUserToken(code: string): Promise<any> {
   const url = "https://api.intra.42.fr/oauth/token";
@@ -27,57 +32,6 @@ export async function getUserToken(code: string): Promise<any> {
   }
 }
 
-const UserProfilModel = (response: any): UserProfile => {
-  const {
-    id,
-    email,
-    login,
-    first_name,
-    last_name,
-    displayname,
-    wallet,
-    correction_point,
-  } = response.data;
-  const { level } = response.data.cursus_users[1];
-  const image = response.data.image.link;
-  const userProfile: UserProfile = {
-    id,
-    email,
-    login,
-    first_name,
-    last_name,
-    displayname,
-    wallet,
-    correction_point,
-    level,
-    image,
-  };
-
-  return userProfile;
-};
-
-const projectModel = (projects: any): Project[] => {
-  const projectsModel: Project[] = [];
-
-  projects.map((project: any) => {
-    const {
-      created_at,
-      final_mark,
-      status,
-      ["validated?"]: validated,
-    } = project;
-    const name = project.project.name;
-    projectsModel.push({
-      created_at,
-      final_mark,
-      name,
-      status,
-      validated,
-    } as Project);
-  });
-  return projectsModel;
-};
-
 export async function getMe(): Promise<User> {
   try {
     const response = await axios.get("https://api.intra.42.fr/v2/me");
@@ -85,11 +39,14 @@ export async function getMe(): Promise<User> {
     const userProjects = projectModel(response.data.projects_users);
     const userSkills: Skill[] = response.data.cursus_users[1].skills;
     const userCoalition: Coalition = await getCoalition(userProfile.id);
+    const userCampus = campusModel(response.data.campus[0]);
+    // console.log("response me : ", response.data.campus);
     return {
       userProfile,
       userProjects,
       userSkills,
       userCoalition,
+      userCampus,
     };
   } catch (error) {
     console.log("error in get me : ", error);

@@ -1,5 +1,6 @@
 import { Coalition } from "@/type/coalition";
 import axios from "axios";
+import { eventModel } from "./createModelObject";
 
 function getCoalColor(color: string, percent: number): string {
   let num = parseInt(color.slice(1), 16);
@@ -15,7 +16,7 @@ function getCoalColor(color: string, percent: number): string {
   return `#${(g | (b << 8) | (r << 16)).toString(16).padStart(6, "0")}`;
 }
 
-export async function getCoalition(userId: number): Promise<Coalition> {
+export async function getCoalition(userId: number | null): Promise<Coalition> {
   try {
     const response = await axios.get(
       `https://api.intra.42.fr/v2/users/${userId}/coalitions`
@@ -28,5 +29,18 @@ export async function getCoalition(userId: number): Promise<Coalition> {
   } catch (error) {
     console.log("error in get coalition : ", error);
     throw new Error(`Couldn't get coalition : ${error}`);
+  }
+}
+
+export async function getEvents(campusId: number): Promise<any> {
+  try {
+    const response = await axios.get(
+      `https://api.intra.42.fr/v2/campus/${campusId}/events`
+    );
+
+    return eventModel(response.data);
+  } catch (error) {
+    console.log("error in getEvents : ", error);
+    throw new Error(`error in getEgents : ${error}`);
   }
 }

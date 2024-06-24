@@ -11,6 +11,7 @@ export default function AppLayout() {
     useSession();
   const colorScheme = useColorScheme();
 
+  // TODO : vérifier si le token est encore valide pour pas rester blocké sur la loading page
   if (isSessionLoading || isMeLoading || isPending || !me) {
     return (
       <ImageBackground
