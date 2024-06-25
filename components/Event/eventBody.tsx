@@ -1,7 +1,6 @@
 import { Event } from "@/type/event";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { ThemedText } from "../themedComponents/ThemedText";
-import { Colors } from "@/constants/Colors";
 
 type EventBodyProps = {
   event: Event;

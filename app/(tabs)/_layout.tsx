@@ -3,7 +3,7 @@ import { useSession } from "@/context/authContext";
 import { Colors } from "@/constants/Colors";
 import React from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import Loading from "@/utils/loading";
 

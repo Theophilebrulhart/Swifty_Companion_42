@@ -2,7 +2,7 @@ import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { Event } from "@/type/event";
 import { formatDate } from "date-fns";
 import { router } from "expo-router";
-import { Dimensions, StyleSheet, Touchable, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 type EventCardProps = {
@@ -16,8 +16,6 @@ export default function EventCard({ event, color }: EventCardProps) {
   const startDate = formatDate(event.begin_at, "dd MMM");
   const startHour = formatDate(event.begin_at, "HH:mm");
   const endHour = formatDate(event.end_at, "HH:mm");
-
-  const nav = router.navigate;
 
   const navTo = () => {
     console.log("nav to evet");

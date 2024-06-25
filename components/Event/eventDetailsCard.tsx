@@ -14,7 +14,6 @@ export default function EventDetailsCard({ event, me }: eventDetailsCardProps) {
   const startHour = formatDate(event.begin_at, "HH:mm");
   const endHour = formatDate(event.end_at, "HH:mm");
 
-  console.log("max :", event.max_people, event.location, event.nbr_subscriber);
   return (
     <View
       style={[

@@ -6,7 +6,6 @@ import { useSession } from "@/context/authContext";
 import { Event } from "@/type/event";
 import EventCard from "./eventCard";
 import { useEffect, useState } from "react";
-import { endEvent } from "react-native/Libraries/Performance/Systrace";
 import Loading from "@/utils/loading";
 
 export default function EventsComponent() {
