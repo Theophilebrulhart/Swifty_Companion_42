@@ -1,14 +1,27 @@
+import { Event } from "@/type/event";
+import { User } from "@/type/user";
 import { StyleSheet, View } from "react-native";
-import { UserProfile } from "@/type/user";
-import { ThemedText } from "@/components/themedComponents/ThemedText";
+import { ThemedText } from "../themedComponents/ThemedText";
+import { formatDate } from "date-fns";
 
-export default function DetailsCard(props: { user: UserProfile }) {
-  const { user } = props;
+type eventDetailsCardProps = {
+  event: Event;
+  me: User;
+};
+
+export default function EventDetailsCard({ event, me }: eventDetailsCardProps) {
+  const startHour = formatDate(event.begin_at, "HH:mm");
+  const endHour = formatDate(event.created_at, "HH:mm");
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={[
+        styles.cardContainer,
+        { backgroundColor: me.userCoalition.dark_color, opacity: 0.5 },
+      ]}
+    >
       <View>
         <ThemedText type="title" style={{ fontSize: 20, lineHeight: 25 }}>
-          {user.login.toUpperCase()}
+          {startHour} - {endHour}
         </ThemedText>
         <ThemedText
           style={{
@@ -17,17 +30,17 @@ export default function DetailsCard(props: { user: UserProfile }) {
             lineHeight: 10,
           }}
         >
-          {user.displayname}
+          {event.location}
         </ThemedText>
       </View>
       <View style={styles.details}>
         <View style={styles.detail}>
-          <ThemedText>Wallet : </ThemedText>
-          <ThemedText>{user.wallet}&nbsp;₳</ThemedText>
+          <ThemedText>Max participant : </ThemedText>
+          <ThemedText>{event.max_people}</ThemedText>
         </View>
         <View style={styles.detail}>
           <ThemedText>Evaluation Points : </ThemedText>
-          <ThemedText>{user.correction_point}</ThemedText>
+          <ThemedText>{event.nbr_subscriber}</ThemedText>
         </View>
       </View>
     </View>

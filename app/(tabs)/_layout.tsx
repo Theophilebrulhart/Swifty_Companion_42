@@ -5,6 +5,7 @@ import React from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import Loading from "@/utils/loading";
 
 export default function AppLayout() {
   const { session, isSessionLoading, isMeLoading, me, isPending } =
@@ -12,16 +13,8 @@ export default function AppLayout() {
   const colorScheme = useColorScheme();
 
   // TODO : vérifier si le token est encore valide pour pas rester blocké sur la loading page
-  if ((isSessionLoading || isMeLoading || isPending || !me) && session) {
-    return (
-      <ImageBackground
-        source={{
-          uri: "https://play-lh.googleusercontent.com/R7908CY0RwHLy9zBRvK5iYfRPZdSlhOPOyAqwPd9cCYICrvU809bRhqDz28qRpteqCM",
-        }}
-        style={styles.backgroundImage}
-        resizeMode="cover"
-      ></ImageBackground>
-    );
+  if ((isSessionLoading || isMeLoading || isPending) && session) {
+    return <Loading />;
   }
 
   // Only require authentication within the (app) group's layout as users
@@ -64,6 +57,12 @@ export default function AppLayout() {
               color={color}
             />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="event"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

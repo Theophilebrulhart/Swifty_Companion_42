@@ -1,7 +1,9 @@
 import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { Event } from "@/type/event";
 import { formatDate } from "date-fns";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { router } from "expo-router";
+import { Dimensions, StyleSheet, Touchable, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type EventCardProps = {
   event: Event;
@@ -14,8 +16,19 @@ export default function EventCard({ event, color }: EventCardProps) {
   const startDate = formatDate(event.begin_at, "dd MMM");
   const startHour = formatDate(event.begin_at, "HH:mm");
   const endHour = formatDate(event.end_at, "HH:mm");
+
+  const nav = router.navigate;
+
+  const navTo = () => {
+    console.log("nav to evet");
+    router.push(`/event?id=${event.id}`);
+  };
+
   return (
-    <View style={[styles.cardContainer, { width: width - 50 }]}>
+    <TouchableOpacity
+      style={[styles.cardContainer, { width: width - 50 }]}
+      onPress={() => navTo()}
+    >
       <View style={styles.leftContainer}>
         <View style={[styles.kindContainer, { borderColor: color }]}>
           <ThemedText style={{ fontSize: 20 }}>{event.kind}</ThemedText>
@@ -38,7 +51,7 @@ export default function EventCard({ event, color }: EventCardProps) {
           {startHour} - {endHour}
         </ThemedText>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

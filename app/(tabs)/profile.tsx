@@ -9,6 +9,7 @@ import { ImageBackground, SafeAreaView, StyleSheet, View } from "react-native";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { HomeTabs } from "./home";
 import CustomTabBar from "@/components/utils/customTabBar";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 
 export type Tabs = "projects" | "skills" | "settings";
 
@@ -32,11 +33,17 @@ export default function Profile() {
     .runOnJS(true);
 
   if (!me) {
-    console.log(
-      "me not defined so back to login and isMeLoading :",
-      isMeLoading
+    //TODO check validiter du accessToken
+    // return <Redirect href={"sign-in"} />;
+    return (
+      <ImageBackground
+        source={{
+          uri: "https://play-lh.googleusercontent.com/R7908CY0RwHLy9zBRvK5iYfRPZdSlhOPOyAqwPd9cCYICrvU809bRhqDz28qRpteqCM",
+        }}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      ></ImageBackground>
     );
-    return <Redirect href={"/sign-in"} />;
   }
 
   return (

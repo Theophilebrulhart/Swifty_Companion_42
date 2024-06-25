@@ -1,5 +1,4 @@
 import HomeHeaderComponent from "@/components/Home/HomeHeader/homeHeaderComponent";
-import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { useState } from "react";
 import { ImageBackground, SafeAreaView, StyleSheet, View } from "react-native";
 import { Tabs } from "./profile";
@@ -8,6 +7,7 @@ import CustomTabBar from "@/components/utils/customTabBar";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import EventsComponent from "@/components/Home/events/eventsComponent";
+import MyEventsComponent from "@/components/Home/events/myEventsComponent";
 
 export type HomeTabs = "events" | "myEvents";
 
@@ -51,7 +51,7 @@ export default function Home() {
         <GestureDetector gesture={pan}>
           <View style={{ flex: 1 }}>
             {type === "events" && <EventsComponent />}
-            {type === "myEvents" && <ThemedText>myEvents</ThemedText>}
+            {type === "myEvents" && <MyEventsComponent />}
           </View>
         </GestureDetector>
       </ImageBackground>
