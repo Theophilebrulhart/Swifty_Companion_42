@@ -1,12 +1,13 @@
 import HomeHeaderComponent from "@/components/Home/HomeHeader/homeHeaderComponent";
-import EventsComponent from "@/components/events/eventsComponent";
 import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet, View } from "react-native";
 import { Tabs } from "./profile";
 import { useSession } from "@/context/authContext";
 import CustomTabBar from "@/components/utils/customTabBar";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import EventsComponent from "@/components/Home/events/eventsComponent";
 
 export type HomeTabs = "events" | "myEvents";
 
@@ -23,22 +24,45 @@ export default function Home() {
     );
   }
 
+  const pan = Gesture.Pan()
+    .minDistance(1)
+    .onStart((event) => {
+      if (event.translationX < -10 && type === "events") setType("myEvents");
+      if (type === "myEvents" && event.translationX > 10) setType("events");
+    })
+    .runOnJS(true);
+
   return (
-    <ThemedView style={styles.homeContainer}>
+    <SafeAreaView style={{ flex: 1 }}>
       <HomeHeaderComponent />
-      <CustomTabBar
-        contentType={type}
-        setContentType={setType}
-        activeColor={me?.userCoalition.dark_color}
-        labels={labels}
-      />
-      <EventsComponent />
-    </ThemedView>
+      <ImageBackground
+        source={{
+          uri: "https://play-lh.googleusercontent.com/R7908CY0RwHLy9zBRvK5iYfRPZdSlhOPOyAqwPd9cCYICrvU809bRhqDz28qRpteqCM",
+        }}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <CustomTabBar
+          contentType={type}
+          setContentType={setType}
+          activeColor={me?.userCoalition.dark_color}
+          labels={labels}
+        />
+        <GestureDetector gesture={pan}>
+          <View style={{ flex: 1 }}>
+            {type === "events" && <EventsComponent />}
+            {type === "myEvents" && <ThemedText>myEvents</ThemedText>}
+          </View>
+        </GestureDetector>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  homeContainer: {
+  backgroundImage: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

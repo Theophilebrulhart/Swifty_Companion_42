@@ -2,9 +2,9 @@ import { Redirect, Tabs } from "expo-router";
 import { useSession } from "@/context/authContext";
 import { Colors } from "@/constants/Colors";
 import React from "react";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ImageBackground, StyleSheet, View } from "react-native";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 
 export default function AppLayout() {
   const { session, isSessionLoading, isMeLoading, me, isPending } =
@@ -12,7 +12,7 @@ export default function AppLayout() {
   const colorScheme = useColorScheme();
 
   // TODO : vérifier si le token est encore valide pour pas rester blocké sur la loading page
-  if (isSessionLoading || isMeLoading || isPending || !me) {
+  if ((isSessionLoading || isMeLoading || isPending || !me) && session) {
     return (
       <ImageBackground
         source={{

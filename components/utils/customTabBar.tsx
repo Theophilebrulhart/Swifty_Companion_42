@@ -40,6 +40,7 @@ export default function CustomTabBar({
 const styles = StyleSheet.create({
   profileTabBarContainer: {
     height: 50,
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
