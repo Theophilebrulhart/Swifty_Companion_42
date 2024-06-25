@@ -1,3 +1,4 @@
+import EventBody from "@/components/Event/eventBody";
 import EventHeader from "@/components/Event/eventHeader";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { ThemedView } from "@/components/themedComponents/ThemedView";
@@ -36,6 +37,7 @@ export default function EventScreen({ event }: EventScreenProps) {
   return (
     <ThemedView style={styles.eventContainer}>
       <EventHeader event={data} me={me} />
+      <EventBody event={data} />
     </ThemedView>
   );
 }
@@ -45,21 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 50,
     paddingHorizontal: 15,
-  },
-  eventDetails: {
-    height: 250,
-    width: "100%",
-    justifyContent: "center",
-    flexDirection: "row",
-  },
-  dateContainer: {
-    flex: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  infosContainer: {
-    flex: 3,
-    gap: 10,
-    padding: 20,
+    gap: 20,
   },
 });

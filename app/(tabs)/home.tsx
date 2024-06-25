@@ -8,6 +8,7 @@ import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import EventsComponent from "@/components/Home/events/eventsComponent";
 import MyEventsComponent from "@/components/Home/events/myEventsComponent";
+import Loading from "@/utils/loading";
 
 export type HomeTabs = "events" | "myEvents";
 
@@ -17,11 +18,7 @@ export default function Home() {
   const labels: HomeTabs[] = ["events", "myEvents"];
 
   if (!me) {
-    return (
-      <>
-        <ThemedText>Loading</ThemedText>
-      </>
-    );
+    return <Loading />;
   }
 
   const pan = Gesture.Pan()

@@ -32,7 +32,7 @@ export default function EventHeader({ event, me }: EventHeaderProps) {
             alignItems: "center",
           }}
         >
-          <ThemedText style={{ fontSize: 15 }}>
+          <ThemedText style={{ fontSize: 25 }}>
             {event.kind.toUpperCase()}
           </ThemedText>
         </View>
