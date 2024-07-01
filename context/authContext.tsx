@@ -19,13 +19,17 @@ WebBrowser.maybeCompleteAuthSession();
 type AuthContextType = {
   signIn: () => void;
   signOut: () => void;
+  getRefreshToken: () => void;
   session: string | null;
   isSessionLoading: boolean;
   isTokenLoading: boolean;
   isPending: boolean;
-  // isRefreshTokenLoading: boolean;
+  isRefreshTokenLoading: boolean;
   isMeLoading: boolean;
+  errorMessage: string;
+  error: Error | null;
   me: User | null | undefined;
+  isRefreshing: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -42,10 +46,11 @@ export function useSession() {
 export function SessionProvider(props: PropsWithChildren) {
   const [[isSessionLoading, session], setSession] = useStorageState("session");
   const [[isTokenLoading, token], setToken] = useStorageState("token");
-  const [dataLoading, setDataLoading] = useState(true);
-  // const [[isRefreshTokenLoading, refreshToken], setRefreshToken] =
-  //   useStorageState("refreshToken");
+  const [[isRefreshTokenLoading, refreshToken], setRefreshToken] =
+    useStorageState("refreshToken");
   const [shaKey, setShaKey] = useState<Promise<string> | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const discovery = {
     authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
@@ -66,15 +71,25 @@ export function SessionProvider(props: PropsWithChildren) {
 
   const {
     isPending,
-    isError,
     isLoading: isMeLoading,
     isSuccess,
+    error,
     data: me,
+    isRefetching,
     refetch: refetchMe,
   } = useQuery({
     queryKey: ["getMe"],
     queryFn: () => (session ? getMe() : null),
   });
+
+  const connectUser = (token: any) => {
+    setSession("active");
+    setToken(token.access_token);
+    setRefreshToken(token.refresh_token);
+    refetchMe();
+    if (isMeLoading) console.log("isMeLoading dans connectUser");
+    if (isSuccess) router.replace("/profile");
+  };
 
   const signIn = async () => {
     if (!shaKey) return;
@@ -86,20 +101,39 @@ export function SessionProvider(props: PropsWithChildren) {
       return;
     const { code } = res.params;
     try {
-      const accessToken = await getUserToken(code);
-      setSession("active");
-      setToken(accessToken.access_token);
-      refetchMe();
-      if (isSuccess) router.replace("/profile");
+      const accessToken = await getUserToken(
+        code,
+        "authorization_code",
+        "code"
+      );
+      connectUser(accessToken);
     } catch (error) {
+      console.log("error in signIn : ", error);
+      setErrorMessage("Failed to connect to your 42 account, please try again");
       return;
+    }
+  };
+
+  const getRefreshToken = async () => {
+    if (!refreshToken) return;
+    try {
+      setIsRefreshing(true);
+      const response = await getUserToken(
+        refreshToken,
+        "refresh_token",
+        "refresh_token"
+      );
+      connectUser(response);
+    } catch (error) {
+      router.replace("/sign-in");
+      setErrorMessage("Failed to refresh your session, please log in again");
+      console.log("error in getting refreshToken : ", error);
     }
   };
 
   useEffect(() => {
     setShaKey(generateShaKey());
     if (session !== null && !isSessionLoading && token !== null) {
-      console.log("session = ", session, "token = ", token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       refetchMe();
     }
@@ -112,15 +146,20 @@ export function SessionProvider(props: PropsWithChildren) {
         signOut: () => {
           setSession(null);
           setToken(null);
-          // setRefreshToken(null);
+          setRefreshToken(null);
+          setErrorMessage("");
         },
+        getRefreshToken,
         session,
         isSessionLoading,
         isTokenLoading,
-        // isRefreshTokenLoading,
+        isRefreshTokenLoading,
         me,
         isMeLoading,
         isPending,
+        errorMessage,
+        error,
+        isRefreshing,
       }}
     >
       {props.children}

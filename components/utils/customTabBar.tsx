@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Tabs } from "@/app/(tabs)/profile";
 import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { HomeTabs } from "@/app/(tabs)/home";
@@ -23,13 +23,14 @@ export default function CustomTabBar({
 
   return (
     <ThemedView style={styles.profileTabBarContainer}>
-      {labels.map((label: Tabs | HomeTabs) => {
+      {labels.map((label: Tabs | HomeTabs, index) => {
         return (
           <CustomTab
             contentType={contentType}
             changeContentTo={changeContentTo}
             title={label}
             activeColor={activeColor}
+            key={index}
           />
         );
       })}

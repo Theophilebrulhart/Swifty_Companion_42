@@ -19,7 +19,6 @@ export default function ProjectList({ projects, color }: ProjectListProps) {
           data={projects}
           renderItem={renderItem}
           keyExtractor={(item) => item.name}
-          // extraData={selectedId}
           showsVerticalScrollIndicator={false}
         />
       </View>

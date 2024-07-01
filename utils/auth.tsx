@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as Crypto from "expo-crypto";
-import { User, UserProfile } from "@/type/user";
-import { Project } from "@/type/project";
+import { User } from "@/type/user";
 import { Skill } from "@/type/skills";
 import { Coalition } from "@/type/coalition";
 import { getCoalition } from "./api";
@@ -11,14 +10,18 @@ import {
   projectModel,
 } from "./createModelObject";
 
-export async function getUserToken(code: string): Promise<any> {
+export async function getUserToken(
+  code: string,
+  grantType: string,
+  codeName: string
+): Promise<any> {
   const url = "https://api.intra.42.fr/oauth/token";
 
   const data = new URLSearchParams();
-  data.append("grant_type", "authorization_code");
+  data.append("grant_type", grantType);
   data.append("client_id", process.env.EXPO_PUBLIC_API_UID as string);
   data.append("client_secret", process.env.EXPO_PUBLIC_SECRET as string);
-  data.append("code", code);
+  data.append(codeName, code);
   data.append("redirect_uri", "exp://172.20.10.3:8081");
 
   try {
@@ -27,31 +30,25 @@ export async function getUserToken(code: string): Promise<any> {
       "Bearer " + response.data.access_token;
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("ERROR in getUserToken", error);
     throw new Error("Couldn't exchange code against token");
   }
 }
 
 export async function getMe(): Promise<User> {
-  try {
-    const response = await axios.get("https://api.intra.42.fr/v2/me");
-    const userProfile = UserProfilModel(response);
-    const userProjects = projectModel(response.data.projects_users);
-    const userSkills: Skill[] = response.data.cursus_users[1].skills;
-    const userCoalition: Coalition = await getCoalition(userProfile.id);
-    const userCampus = campusModel(response.data.campus[0]);
-    // console.log("response me : ", response.data.campus);
-    return {
-      userProfile,
-      userProjects,
-      userSkills,
-      userCoalition,
-      userCampus,
-    };
-  } catch (error) {
-    console.log("error in get me : ", error);
-    throw new Error("Couldn't get me infos");
-  }
+  const response = await axios.get("https://api.intra.42.fr/v2/me");
+  const userProfile = UserProfilModel(response);
+  const userProjects = projectModel(response.data.projects_users);
+  const userSkills: Skill[] = response.data.cursus_users[1].skills;
+  const userCoalition: Coalition = await getCoalition(userProfile.id);
+  const userCampus = campusModel(response.data.campus[0]);
+  return {
+    userProfile,
+    userProjects,
+    userSkills,
+    userCoalition,
+    userCampus,
+  };
 }
 
 export async function generateShaKey(): Promise<string> {

@@ -33,7 +33,6 @@ export default function Profile() {
     .runOnJS(true);
 
   if (!me) {
-    //TODO check validiter du accessToken
     // return <Redirect href={"sign-in"} />;
     return (
       <ImageBackground

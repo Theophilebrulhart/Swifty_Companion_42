@@ -8,19 +8,18 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import Loading from "@/utils/loading";
 
 export default function AppLayout() {
-  const { session, isSessionLoading, isMeLoading, me, isPending } =
+  const { session, isMeLoading, me, error, getRefreshToken, isRefreshing } =
     useSession();
   const colorScheme = useColorScheme();
 
-  // TODO : vérifier si le token est encore valide pour pas rester blocké sur la loading page
-  if ((isSessionLoading || isMeLoading || isPending) && session) {
+  if (!me && session) {
+    if (error?.message.includes("401") && !isRefreshing) getRefreshToken();
     return <Loading />;
   }
 
   // Only require authentication within the (app) group's layout as users
   // need to be able to access the (auth) group and sign in again.
   if (!session) {
-    console.log("no session found => go back to login");
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
     return <Redirect href="/sign-in" />;

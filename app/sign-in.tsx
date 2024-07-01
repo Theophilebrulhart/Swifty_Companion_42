@@ -6,9 +6,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { useSession } from "@/context/authContext";
+import { Colors } from "@/constants/Colors";
 
 export default function App() {
-  const { signIn } = useSession();
+  const { signIn, errorMessage } = useSession();
 
   return (
     <ImageBackground
@@ -22,6 +23,11 @@ export default function App() {
         <Pressable onPress={signIn} style={styles.button}>
           <Text style={styles.buttonText}>Log In</Text>
         </Pressable>
+        {errorMessage && (
+          <Text style={{ color: Colors.dark.error, marginTop: 15 }}>
+            {errorMessage}
+          </Text>
+        )}
       </View>
     </ImageBackground>
   );
